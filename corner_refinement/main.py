@@ -3,6 +3,7 @@ import json
 import cv2
 import shutil
 import os
+import numpy as np
 
 
 def parse_gt_json(json_path):
@@ -72,6 +73,15 @@ def refine(img, img_name, user_pnts, crop_r=5):
         ret[j, i] = [0, 0, 255]
         cv2.circle(ret, (i, j), 10, (0, 0, 255))
         cv2.circle(ret, (i, j), 2, (0, 0, 255), -1)
+
+        # Some image preprocess here if needed.
+        # img = cv2.GaussianBlur(img, (3, 3), 0)
+        # img = cv2.Canny(img, 150, 200, apertureSize=3)
+        # kernel = np.ones((3, 3), np.uint8)
+        # img = cv2.dilate(img, kernel, iterations=1)
+        # img = cv2.erode(img, kernel, iterations=1)
+        # cv2.imwrite("tmp.jpg", img)
+        
         crop = img[j-crop_r:j+crop_r, i-crop_r:i+crop_r]
         corner_i, corner_j = get_corner_avg(crop)
         # user select a ridiculous pixel that there's no corner in the neighbor
