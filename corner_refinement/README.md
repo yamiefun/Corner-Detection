@@ -7,7 +7,9 @@ The inputs are images and a `json` file containing all pixels coordinates select
 The output will be an image with both users selected corners (drawn in red) and corners which are refined (drawn in green). You could customize the code to fit your application. For example, only return the refined pixels coordinates to users.
 
 ## Installation
-
+```
+pip3 install -r requirement.txt
+```
 ## How to Run
 Place your images into `input` folder.
 Write users selected corners in `gt.json` and place it in the same directory with `main.py`.
