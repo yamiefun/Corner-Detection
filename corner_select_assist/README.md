@@ -1,31 +1,17 @@
-# Indoor-segmentation
+# Corner Selection Assistant
 ## Introduction
-  This is an implementation of DeepLab-ResNet in TensorFlow for Indoor-scene segmentation on the [ade20k](http://sceneparsing.csail.mit.edu/) dataset. This code is inherited from [tensorflow-deeplab-resnet](https://github.com/DrSleep/tensorflow-deeplab-resnet) by [Drsleep](https://drsleep.github.io/). Since this model is for `robot navigating`, we `re-label 150 classes into 27 classes` in order to easily classify obstacles and road.  
+This tool can provided candidate corners for CCTV calibration. Users only need to choose the corner which is the nearest to the real corner pixel.
 
-### Re-label list: 
-```
-1 (wall)      <- 9(window), 15(door), 33(fence), 43(pillar), 44(sign board), 145(bullertin board)
-4 (floor)     <- 7(road), 14(ground, 30(field), 53(path), 55(runway)
-5 (tree)      <- 18(plant)
-8 (furniture) <- 8(bed), 11(cabinet), 14(sofa), 16(table), 19(curtain), 20(chair), 25(shelf), 34(desk) 
-7 (stairs)    <- 54(stairs)
-26(others)    <- class number larger than 26
-```
+The input should be a CCTV camera scene. This tool will first run Harris corner detector to detect all corners in the image, and filter most of them out with indoor segmentation information. The remaining corners should only appear in between walls and floor.
 
-  
-## Install 
-First get restore checkpoint from [Google Drive](https://drive.google.com/drive/folders/0B9CKOTmy0DyaQ2oxUHdtYUd2Mm8?usp=sharing) and put into `restore_weights` directory.
+The output image will be generate in `output` folder. 
+You could customize the code for your own applications. For example, return all candidate corners coordinates to the frontend for rendering.
 
-Run `inference.py` with `--img_path` and `--restore_from`
+## Installation
+This tool is based on [Indoor Segmentation](https://github.com/hellochick/Indoor-segmentation). Please take a look at the [README](https://github.com/hellochick/Indoor-segmentation/blob/master/README.md) for more details. 
+
+## How to Run
+Put your input image in `input` folder and  simply run 
 ```
-python inference --img_path=FILENAME --restore_from=CHECKPOINT_DIR
+python3 main.py
 ```
-## Result
-### Video
-[![Demo video](https://img.youtube.com/vi/4OqW3M-eqaQ/0.jpg)](https://youtu.be/4OqW3M-eqaQ)
-### Image
-Input image                |  Output image
-:-------------------------:|:-------------------------:
-![](https://github.com/hellochick/Indoor-segmentation/blob/master/input/IMG_0416_640x480.png)  |  ![](https://github.com/hellochick/Indoor-segmentation/blob/master/output/IMG_0416_640x480.png)
-![](https://github.com/hellochick/Indoor-segmentation/blob/master/input/IMG_0417_640x480.png)  |  ![](https://github.com/hellochick/Indoor-segmentation/blob/master/output/IMG_0417_640x480.png)
-![](https://github.com/hellochick/Indoor-segmentation/blob/master/input/IMG_0418_640x480.png)  |  ![](https://github.com/hellochick/Indoor-segmentation/blob/master/output/IMG_0418_640x480.png)
