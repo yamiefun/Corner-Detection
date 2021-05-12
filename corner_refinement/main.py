@@ -1,9 +1,9 @@
 import glob
 import json
-import cv2
-import shutil
 import os
-import numpy as np
+import shutil
+import cv2
+# import numpy as np
 
 
 def parse_gt_json(json_path):
@@ -19,7 +19,7 @@ def parse_gt_json(json_path):
         gt_list (list): The ground truth parse from GT file.
         total_gt_count (int): The number of corners in the GT file.
     """
-    
+
     js_file = open(json_path)
     gt = json.load(js_file)
     gt_list = gt['gt']
@@ -81,7 +81,7 @@ def refine(img, img_name, user_pnts, crop_r=5):
         # img = cv2.dilate(img, kernel, iterations=1)
         # img = cv2.erode(img, kernel, iterations=1)
         # cv2.imwrite("tmp.jpg", img)
-        
+
         crop = img[j-crop_r:j+crop_r, i-crop_r:i+crop_r]
         corner_i, corner_j = get_corner_avg(crop)
         # user select a ridiculous pixel that there's no corner in the neighbor
@@ -132,7 +132,7 @@ def main():
     """
     Please customize I/O and filesystem manipulation for your application.
     """
-    
+
     files = glob.glob('input/*')
     shutil.rmtree('./output', ignore_errors=True)
     os.makedirs('./output')
